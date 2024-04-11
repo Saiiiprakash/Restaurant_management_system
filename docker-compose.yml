@@ -1,0 +1,31 @@
+version: '1'
+services:
+
+  db:
+    image: mysql:8.0.32
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'restaurant'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - ./db:/var/lib/mysql
+  
+  restaurant_management_system:
+    container_name: restaurant_management
+    build: 
+      context: ./Restaurant_Management_System
+      dockerfile: Dockerfile
+    volumes:
+      - ./Restaurant_Management_System:/app
+    links:
+      - db
+    ports:
+      - "5000:5000"
+    
+  
